@@ -4,10 +4,16 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\RuntimeFile.ProjectItemsSchema.xml" Context="Project" />
   </ItemGroup>
 
-  <Target Name="DiscoverRuntimeFiles">
+  <Target Name="DiscoverRuntimeFiles" BeforeTargets="PrepareForBuild">
     <ItemGroup Condition="'$(ConfigurationType)' == 'DynamicLibrary'">
       <RuntimeFile Include="$(OutDir)$(TargetName)$(TargetExt)" />
       <RuntimeFile Include="$(OutDir)$(TargetName).pdb" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <RuntimeFile Update="@(RuntimeFile)">
+        <SubDirectory Condition="'%(RuntimeFile.SubDirectory)' != '' and !HasTrailingSlash('%(RuntimeFile.SubDirectory)')">%(RuntimeFile.SubDirectory)\</SubDirectory>
+      </RuntimeFile>
     </ItemGroup>
 
     <ItemGroup>
@@ -20,11 +26,4 @@
       <ReferenceCopyLocalPaths Include="@(RuntimeFile)" DestinationSubDirectory="%(RuntimeFile.SubDirectory)" />
     </ItemGroup>
   </Target>
-
-  <PropertyGroup>
-    <ReferenceCopyLocalPathsOutputGroupDependsOn>
-      DiscoverRuntimeFiles;
-      $(ReferenceCopyLocalPathsOutputGroupDependsOn)
-    </ReferenceCopyLocalPathsOutputGroupDependsOn>
-  </PropertyGroup>
 </Project>
