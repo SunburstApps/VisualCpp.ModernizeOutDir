@@ -15,6 +15,7 @@
       <_PackageRestoreRequired>false</_PackageRestoreRequired>
     </PropertyGroup>
 
-    <Error Condition="$(_PackageRestoreRequired)" Text="NuGet restore not complete, please run MSBuild /t:Restore" />
+    <CallTarget Targets="Restore" Condition="$(_PackageRestoreRequired)" />
+    <Error Condition="$(_PackageRestoreRequired)" Text="NuGet packages restored, please restart build" />
   </Target>
 </Project>
