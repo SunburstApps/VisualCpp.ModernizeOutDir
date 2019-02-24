@@ -4,16 +4,19 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\RuntimeFile.ProjectItemsSchema.xml" Context="Project" />
   </ItemGroup>
 
-  <Target Name="DiscoverRuntimeFiles" BeforeTargets="PrepareForBuild">
+  <Target Name="DiscoverRuntimeFiles" Returns="@(RuntimeFile)" DependsOnTargets="$(DiscoverRuntimeFilesDependsOn)">
+    <ItemGroup>
+      <_RuntimeFileSource Include="@(ProjectReference)" />
+      <_RuntimeFileSource Include="@(RuntimeFileSourceProject)" />
+    </ItemGroup>
+
+    <MSBuild Projects="@(_RuntimeFileSource)" Targets="DiscoverRuntimeFiles">
+      <Output TaskParameter="TargetOutputs" ItemName="RuntimeFile" />
+    </MSBuild>
+
     <ItemGroup Condition="'$(ConfigurationType)' == 'DynamicLibrary'">
       <RuntimeFile Include="$(OutDir)$(TargetName)$(TargetExt)" />
       <RuntimeFile Include="$(OutDir)$(TargetName).pdb" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <RuntimeFile Update="@(RuntimeFile)">
-        <SubDirectory Condition="'%(RuntimeFile.SubDirectory)' != '' and !HasTrailingSlash('%(RuntimeFile.SubDirectory)')">%(RuntimeFile.SubDirectory)\</SubDirectory>
-      </RuntimeFile>
     </ItemGroup>
 
     <ItemGroup>
@@ -21,9 +24,23 @@
       <RuntimeFile Remove="@(_NonRootedRuntimeFile)" />
       <RuntimeFile Include="@(_NonRootedRuntimeFile -> '$(ProjectDir)%(Identity)')" />
     </ItemGroup>
+  </Target>
+
+  <Target Name="CopyRuntimeFiles" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <_RuntimeFileSource Include="@(ProjectReference)" />
+      <_RuntimeFileSource Include="@(RuntimeFileSourceProject)" />
+    </ItemGroup>
+
+    <MSBuild Projects="@(_RuntimeFileSource)" Targets="DiscoverRuntimeFiles">
+      <Output TaskParameter="TargetOutputs" ItemName="_DiscoveredRuntimeFile" />
+    </MSBuild>
 
     <ItemGroup>
-      <ReferenceCopyLocalPaths Include="@(RuntimeFile)" DestinationSubDirectory="%(RuntimeFile.SubDirectory)" />
+      <_DiscoveredRuntimeFile Include="@(RuntimeFile)" />
     </ItemGroup>
+
+    <MakeDir Directories="@(_DiscoveredRuntimeFile -> '$(OutDir)%(SubDirectory)')" />
+    <Copy SourceFiles="@(_DiscoveredRuntimeFile)" DestinationFolder="$(OutDir)%(_DiscoveredRuntimeFile.SubDirectory)" />
   </Target>
 </Project>
