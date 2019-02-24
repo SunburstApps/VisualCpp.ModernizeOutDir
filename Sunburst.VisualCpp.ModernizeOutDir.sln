@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sunburst.VisualCpp.ModernizeOutDir", "src\Sunburst.VisualCpp.ModernizeOutDir\Sunburst.VisualCpp.ModernizeOutDir.csproj", "{68F81EA4-2149-4A44-852C-5FF630FCFE8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9390A683-ACEA-4F83-98B9-03D4DAAE2C72}"
-	ProjectSection(SolutionItems) = preProject
-		test\Directory.Build.props = test\Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleLibrary", "test\SampleLibrary\SampleLibrary.vcxproj", "{DD039D37-8613-41F3-B863-3763559FAB73}"
 EndProject
