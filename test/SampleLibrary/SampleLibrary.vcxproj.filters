@@ -27,4 +27,7 @@
       <Filter>Resource Files</Filter>
     </RuntimeFile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
