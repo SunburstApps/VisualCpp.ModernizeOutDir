@@ -5,12 +5,7 @@
   </ItemGroup>
 
   <Target Name="DiscoverRuntimeFiles" Returns="@(RuntimeFile)" DependsOnTargets="$(DiscoverRuntimeFilesDependsOn)">
-    <ItemGroup>
-      <_RuntimeFileSource Include="@(ProjectReference)" />
-      <_RuntimeFileSource Include="@(RuntimeFileSourceProject)" />
-    </ItemGroup>
-
-    <MSBuild Projects="@(_RuntimeFileSource)" Targets="DiscoverRuntimeFiles">
+    <MSBuild Projects="@(ProjectReference)" Targets="DiscoverRuntimeFiles">
       <Output TaskParameter="TargetOutputs" ItemName="RuntimeFile" />
     </MSBuild>
 
@@ -27,12 +22,7 @@
   </Target>
 
   <Target Name="CopyRuntimeFiles" AfterTargets="AfterBuild">
-    <ItemGroup>
-      <_RuntimeFileSource Include="@(ProjectReference)" />
-      <_RuntimeFileSource Include="@(RuntimeFileSourceProject)" />
-    </ItemGroup>
-
-    <MSBuild Projects="@(_RuntimeFileSource)" Targets="DiscoverRuntimeFiles">
+    <MSBuild Projects="@(ProjectReference)" Targets="DiscoverRuntimeFiles">
       <Output TaskParameter="TargetOutputs" ItemName="_DiscoveredRuntimeFile" />
     </MSBuild>
 
