@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+
+    <Title>Visual C++ Output Modernization Package</Title>
+    <Description>Adjusts Visual C++ projects (*.vcxproj) to store their built products and intermediate files in a similar way to that of C#, rather than the solution file-relative default.</Description>
+    <Copyright>Copyright © 2019 William Kent. Licensed under the MIT License</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>native;nativepackage</PackageTags>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Sunburst.VisualCpp.ModernizeOutDir.props" PackagePath="build\native" />
+    <Content Include="Sunburst.VisualCpp.ModernizeOutDir.targets" PackagePath="build\native" />
+    <Content Include="RuntimeFile*.xml" PackagePath="build\native" />
+  </ItemGroup>
+</Project>

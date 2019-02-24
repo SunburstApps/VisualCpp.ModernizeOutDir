@@ -1,0 +1,30 @@
+<Project>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\RuntimeFile.xml" Context="File;BrowseObject" />
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\RuntimeFile.ProjectItemsSchema.xml" Context="Project" />
+  </ItemGroup>
+
+  <Target Name="DiscoverRuntimeFiles">
+    <ItemGroup Condition="'$(ConfigurationType)' == 'DynamicLibrary'">
+      <RuntimeFile Include="$(OutDir)$(TargetName)$(TargetExt)" />
+      <RuntimeFile Include="$(OutDir)$(TargetName).pdb" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_NonRootedRuntimeFile Include="@(RuntimeFile)" Condition="!$([System.IO.Path]::IsPathRooted('%(Identity)'))" />
+      <RuntimeFile Remove="@(_NonRootedRuntimeFile)" />
+      <RuntimeFile Include="@(_NonRootedRuntimeFile -> '$(ProjectDir)%(Identity)')" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(RuntimeFile)" DestinationSubDirectory="%(RuntimeFile.SubDirectory)" />
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <ReferenceCopyLocalPathsOutputGroupDependsOn>
+      DiscoverRuntimeFiles;
+      $(ReferenceCopyLocalPathsOutputGroupDependsOn)
+    </ReferenceCopyLocalPathsOutputGroupDependsOn>
+  </PropertyGroup>
+</Project>

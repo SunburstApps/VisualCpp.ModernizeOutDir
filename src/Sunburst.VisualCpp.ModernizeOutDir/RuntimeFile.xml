@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule Name="RuntimeFile" DisplayName="Runtime support file" Order="75" PageTemplate="tool"
+      xmlns="http://schemas.microsoft.com/build/2009/properties" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Rule.Categories>
+    <Category Name="General" DisplayName="General" />
+  </Rule.Categories>
+
+  <Rule.DataSource>
+    <DataSource Persistence="ProjectFile" ItemType="RuntimeFile" HasConfigurationCondition="true" />
+  </Rule.DataSource>
+
+  <StringProperty Name="SubDirectory"
+                  DisplayName="Subdirectory to copy to"
+                  Description="Specifies the subdirectory (relative to the OutDir) to copy this file to. The file will be copied when this project is built, and during the build of all projects that transitively reference it."
+                  Category="General" />
+ </Rule>
