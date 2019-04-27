@@ -21,7 +21,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="CopyRuntimeFiles" AfterTargets="AfterBuild">
+  <Target Name="CopyRuntimeFiles" AfterTargets="BuildLink">
     <MSBuild Projects="@(ProjectReference)" Targets="DiscoverRuntimeFiles">
       <Output TaskParameter="TargetOutputs" ItemName="_DiscoveredRuntimeFile" />
     </MSBuild>
