@@ -4,4 +4,9 @@
     <IntDir>$(MSBuildProjectDirectory)\obj\$(Platform)\$(Configuration)\</IntDir>
     <OutDirWasSpecified>true</OutDirWasSpecified>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- If this property is set, other build code can depend on the existence and semantics of the RuntimeFile item. -->
+    <SunburstModernizeOutDirEnabled>true</SunburstModernizeOutDirEnabled>
+  </PropertyGroup>
 </Project>
