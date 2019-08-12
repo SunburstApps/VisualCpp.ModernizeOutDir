@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <MakeDir Directories="@(_DiscoveredRuntimeFile -> '$(OutDir)%(SubDirectory)')" />
-    <Copy SourceFiles="@(_DiscoveredRuntimeFile)" DestinationFolder="$(OutDir)%(_DiscoveredRuntimeFile.SubDirectory)" />
+    <Copy SourceFiles="@(_DiscoveredRuntimeFile)" DestinationFolder="$(OutDir)%(_DiscoveredRuntimeFile.SubDirectory)"
+          SkipUnchangedFiles="true" />
   </Target>
 </Project>
